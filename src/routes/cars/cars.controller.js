@@ -12,10 +12,10 @@ export const getCars = async () => {
 }
 
 
-// Pesquisa um veículo pelo id.
-const _findCarById = async (id) => {
+// Pesquisa um veículo pelo filtro passado
+const _findCarByFilter = async (filter, data) => {
   try {
-    const res = await Car.findById(id)
+    const res = await Car.findOne({[filter]: data})
     if (res) {
       return res
     }
@@ -29,9 +29,12 @@ const _findCarById = async (id) => {
 
 // Pega um veículo
 export const findCar = async (filter) => {
-  const { id } = filter
+  const { id, board } = filter
   if (id) {
-    return _findCarById(id)
+    return _findCarByFilter("_id", id)
+  }
+  else if (board) {
+    return _findCarByFilter("board", board)
   }
   else {
     throw(null)
@@ -51,10 +54,10 @@ export const createCar = async (data) => {
 }
 
 
-// Remove veículo por id
-const _removeCarById = async (id) => {
+// Remove veículo por filter
+const _removeCarByFilter = async (type, data) => {
   try {
-    const res = await Car.findByIdAndRemove(id)
+    const res = await Car.findOneAndRemove({[type]: data})
     if (res) {
       return res
     }
@@ -68,10 +71,13 @@ const _removeCarById = async (id) => {
 
 // Remove um veículo
 export const deleteCar = async (filter) => {
-  const { id } = filter
+  const { id, board } = filter
 
   if (id) {
-    return _removeCarById(id)
+    return _removeCarByFilter('_id', id)
+  }
+  else if(board) {
+    return _removeCarByFilter('board', board)
   }
   else {
     throw(null)
@@ -80,11 +86,11 @@ export const deleteCar = async (filter) => {
 }
 
 
-// Atualiza um veículo pelo id
-const _findCarAndUpdate = async (id, data) => {
+// Atualiza um veículo pelo filter
+const _findCarAndUpdate = async (type, filter, data) => {
   try {
     const ops = {runValidators: true, new: true}
-    const res = await Car.findByIdAndUpdate(id, {...data}, ops)
+    const res = await Car.findOneAndUpdate({[type]: filter}, {...data}, ops)
     if (res) {
       return res
     }
@@ -98,12 +104,14 @@ const _findCarAndUpdate = async (id, data) => {
 
 // Atualiza um veículo
 export const updateCar = async (filter, data) => {
-  const { id } = filter
-console.log(id, data)
-  if (id) {
-    return _findCarAndUpdate(id, data)
-  }
+  const { id, board } = filter
 
+  if (id) {
+    return _findCarAndUpdate('_id', id, data)
+  }
+  else if(board) {
+    return _findCarAndUpdate('board', board, data)
+  }
   else {
     throw(null)
   }
