@@ -14,6 +14,19 @@ export const getCars = async (_, res) => {
 }
 
 
+// Pega um veículo
+export const getCar = async (req, res) => {
+  try {
+    const result = await CarController.findCar(req.params)
+    ResponseSuccess(res, codes.OK, result)
+  } 
+  catch (err) {
+    if (err === null) ResponseFail(res, codes.NOT_FOUND, "Not Found!")
+    else ResponseFail(res, codes.ERROR, err)
+  }
+}
+
+
 // Insere um novo veículo
 export const createCar = async (req, res) => {
   try {
@@ -33,6 +46,20 @@ export const deleteCar = async (req, res) => {
     ResponseSuccess(res, codes.OK, result)
   } 
   catch (err) {
-    ResponseFail(res, codes.ERROR, err)
+    if (err === null) ResponseFail(res, codes.NOT_FOUND, "Not Found!")
+    else ResponseFail(res, codes.ERROR, err)
+  }
+}
+
+
+// Atualiza um veículo
+export const updateCar = async (req, res) => {
+  try {
+    const result = await CarController.updateCar(req.params, req.body)
+    ResponseSuccess(res, codes.OK, result)
+  } 
+  catch (err) {
+    if (err === null) ResponseFail(res, codes.NOT_FOUND, "Not Found!")
+    else ResponseFail(res, codes.ERROR, err)
   }
 }
