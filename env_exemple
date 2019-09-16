@@ -1,11 +1,22 @@
 NODE_ENV=development
 #NODE_ENV=production
 
-APP_DB_HOST=mongodb://localhost
-APP_DB_PORT=27017
-APP_DB_NAME=express-template
+#NODE_ENV=development
+NODE_ENV=production
+#NODE_ENV=test
+
+#DEV
+APP_DEV_DB_HOST=mongodb://localhost:27017/cars-api
+
+#PROD
+APP_PROD_DB_HOST=mongodb+srv://shan:abcabc123@nutri-laiso.mongodb.net/cars-api?retryWrites=true&w=majority
+
+
+#APP_DB_HOST=mongodb://localhost
+#APP_DB_PORT=27017
+#APP_DB_NAME=cars-api
 #PP_DB_USER=
 #APP_DB_PASSWORD=
-APP_PORT=4005
 
-APP_AUTH_SECRET=
+APP_PORT=4005
+APP_AUTH_SECRET=1348b326e01e9b9ed7b326f5eee6c6d63ad69c38db4d3a09c3390387eeb13af3

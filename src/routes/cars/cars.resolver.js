@@ -1,6 +1,8 @@
 import * as CarController from './cars.controller'
 import { ResponseSuccess, ResponseFail } from '../response/response'
 import codes from '../response/code'
+import messages from '../response/messages'
+
 
 // Retorna todos os veículos
 export const getCars = async (_, res) => {
@@ -9,7 +11,7 @@ export const getCars = async (_, res) => {
     ResponseSuccess(res, codes.OK, result)
   } 
   catch (err) {
-    ResponseFail(res, codes.ERROR, err)
+    responseErrors(res, err)
   }
 }
 
@@ -21,8 +23,7 @@ export const getCar = async (req, res) => {
     ResponseSuccess(res, codes.OK, result)
   } 
   catch (err) {
-    if (err === null) ResponseFail(res, codes.NOT_FOUND, "Not Found!")
-    else ResponseFail(res, codes.ERROR, err)
+    responseErrors(res, err)
   }
 }
 
@@ -34,7 +35,7 @@ export const createCar = async (req, res) => {
     ResponseSuccess(res, codes.CREATE, result)
   } 
   catch (err) {
-    ResponseFail(res, codes.ERROR, err)
+    responseErrors(res, err)
   }
 }
 
@@ -46,8 +47,7 @@ export const deleteCar = async (req, res) => {
     ResponseSuccess(res, codes.OK, result)
   } 
   catch (err) {
-    if (err === null) ResponseFail(res, codes.NOT_FOUND, "Not Found!")
-    else ResponseFail(res, codes.ERROR, err)
+    responseErrors(res, err)
   }
 }
 
@@ -59,7 +59,14 @@ export const updateCar = async (req, res) => {
     ResponseSuccess(res, codes.OK, result)
   } 
   catch (err) {
-    if (err === null) ResponseFail(res, codes.NOT_FOUND, "Not Found!")
-    else ResponseFail(res, codes.ERROR, err)
+    responseErrors(res, err)
   }
+}
+
+// Gerencia as mensagens de erros
+const responseErrors = async (res, err) => {
+  if (err === null) ResponseFail(res, codes.NOT_FOUND, messages.NOT_FOUND)
+  else if (err['name'] === 'CastError') ResponseFail(res, codes.ERROR, messages.CAST_ID)
+  else if (err['name'] === 'MongoError' && err.code === 11000) ResponseFail(res, codes.ERROR, err.errmsg)
+  else ResponseFail(res, codes.ERROR, err)
 }

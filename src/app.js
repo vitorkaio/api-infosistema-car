@@ -1,5 +1,6 @@
-require('dotenv').config()
-import config from '../config/default'
+// require('dotenv').config()
+// import config from '../config/default'
+import * as config from '../config/env_test'
 
 import express from 'express'
 import bodyParser from 'body-parser'
@@ -20,7 +21,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Connect mongoose
-mongoose.connect(`${config.app.db.host}:${config.app.db.port}/${config.app.db.name}`, {
+mongoose.connect(`${config.mongoUrlTest}`, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useCreateIndex: true
@@ -52,7 +53,7 @@ app.use((error, req, res, next) => {
 // const erros: Fails = new Fails()
 // app.use(erros.errorsStatus)
 
-const port = config.app.port
+const port = config.port
 app.listen(port, () => {
   console.log('App listening on port ' + port)
 })

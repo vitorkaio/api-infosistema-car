@@ -5,22 +5,23 @@ const development = {
  app: {
    db: {
      host: process.env.APP_DEV_DB_HOST,
-     port: process.env.APP_DEV_DB_PORT,
-     name: process.env.APP_DEV_DB_NAME,
    },
    port: process.env.APP_PORT
  }
 };
 
-const test = {
-  type: {
-    name: "test"
+const production = {
+  app: {
+    db: {
+      host: process.env.APP_PROD_DB_HOST,
+    },
+    port: process.env.APP_PORT
   }
 };
 
 const config = {
   development,
-  test
+  production
 };
 
 module.exports = config[env];
