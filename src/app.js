@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Connect mongoose
-mongoose.connect(`${config.mongoUrlTest}`, {
+mongoose.connect(`${config.mongoUrl}`, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useCreateIndex: true
